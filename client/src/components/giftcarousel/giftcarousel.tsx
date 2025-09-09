@@ -82,7 +82,7 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
       progress = 1;
     }
 
-    el!.scrollLeft = startScroll + totalDiff * progress * 0.15;
+    el!.scrollLeft = startScroll + totalDiff * progress;
 
     if (elapsed < totalDuration) {
       animId = requestAnimationFrame(step);
