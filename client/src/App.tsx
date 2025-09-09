@@ -10,15 +10,15 @@ import Title from "./components/title/title";
 
 const gifts: GiftType[] = [
   { image: img0, title: "Gift 0", price: "15" },
-  { image: img1, title: "Gift 1", price: "15" },
-  { image: img2, title: "Gift 2", price: "15" },
+  { image: img1, title: "Gift 1", price: "50" },
+  { image: img2, title: "Gift 2", price: "25" },
   { image: img3, title: "Gift 3", price: "15" },
-  { image: img4, title: "Gift 4", price: "15" },
-  { image: img5, title: "Gift 5", price: "15" },
-  { image: img6, title: "Gift 6", price: "15" },
-  { image: img7, title: "Gift 7", price: "15" },
-  { image: img8, title: "Gift 8", price: "15" },
-  { image: img9, title: "Gift 9", price: "15" },
+  { image: img4, title: "Gift 4", price: "25" },
+  { image: img5, title: "Gift 5", price: "50" },
+  { image: img6, title: "Gift 6", price: "50" },
+  { image: img7, title: "Gift 7", price: "100" },
+  { image: img8, title: "Gift 8", price: "50" },
+  { image: img9, title: "Gift 9", price: "100" },
   { image: img10, title: "nft", price: "15" },
 ];
 

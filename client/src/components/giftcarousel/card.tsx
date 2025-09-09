@@ -3,6 +3,7 @@ import classes from "./giftcarousel.module.css";
 import type { GiftType } from "./giftcarousel";
 import React from "react";
 import type { AnimationConfigWithData } from "lottie-web";
+import Star from "../svgs/star";
 
 type CardProps = {
   card: GiftType;
@@ -23,8 +24,10 @@ function Card({ card }: CardProps) {
 
   return (
     <div className={classes.card_container}>
-      {card.title !== "nft" ? (
+      {card.title !== "nft" ? (<>
         <img className={classes.card_image} src={card.image} alt={card.title} />
+        <div className={classes.card_price}><Star/><span className={classes.card_price_title}>{card.price}</span></div>
+        </>
       ) : animationData ? (
         <img className={classes.card_image} src={card.image} alt={card.title} />
         
