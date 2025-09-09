@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
 
@@ -40,12 +40,12 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
   const items = Array.from(el.children) as HTMLElement[];
   if (items.length === 0) return;
 
-  const cardWidth = items[0].offsetWidth;
-  const gap =
-    items.length > 1
-      ? items[1].offsetLeft - items[0].offsetLeft - cardWidth
-      : 0;
-  const cardFullWidth = cardWidth + gap;
+//   const cardWidth = items[0].offsetWidth;
+//   const gap =
+//     items.length > 1
+//       ? items[1].offsetLeft - items[0].offsetLeft - cardWidth
+//       : 0;
+//   const cardFullWidth = cardWidth + gap;
 
   const spins = Math.floor(25 + Math.random() * 10);
   const finalIndex = spins * gifts.length + baseIndex;
@@ -82,7 +82,7 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
       progress = 1;
     }
 
-    el.scrollLeft = startScroll + totalDiff * progress * 0.15;
+    el!.scrollLeft = startScroll + totalDiff * progress * 0.15;
 
     if (elapsed < totalDuration) {
       animId = requestAnimationFrame(step);

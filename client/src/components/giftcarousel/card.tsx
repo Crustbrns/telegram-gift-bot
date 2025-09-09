@@ -2,13 +2,14 @@
 import classes from "./giftcarousel.module.css";
 import type { GiftType } from "./giftcarousel";
 import React from "react";
+import type { AnimationConfigWithData } from "lottie-web";
 
 type CardProps = {
   card: GiftType;
 };
 
 function Card({ card }: CardProps) {
-  const [animationData, setAnimationData] = React.useState<any>(null);
+  const [animationData, setAnimationData] = React.useState<AnimationConfigWithData["animationData"] | null>(null);
 
   React.useEffect(() => {
     if (card.title === "nft") {
