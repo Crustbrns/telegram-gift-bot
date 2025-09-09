@@ -6,6 +6,25 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    position: relative;
+}
+
+.shadow_left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: linear-gradient(90deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.46) 30%, rgba(255, 255, 255, 0) 100%);
+    width: 120px;
+    height: 100%;
+}
+
+.shadow_right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: linear-gradient(90deg,rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.46) 70%, rgba(255, 255, 255, 1) 100%);
+    width: 120px;
+    height: 100%;
 }
 
 .card_holder{

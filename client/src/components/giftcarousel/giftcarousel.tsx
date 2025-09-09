@@ -101,7 +101,8 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
   return (
     <div>
       <div className={classes.container}>
-        <div className={classes.pointer} />
+        <div className={classes.shadow_left}></div>
+        <div className={classes.shadow_right}></div>
         <div
           ref={ref}
           className={`${classes.card_holder} ${classes.carousel_track}`}
