@@ -1,0 +1,24 @@
+.tabs {
+  display: flex;
+  border-radius: 16px;
+  background-color: rgb(36, 36, 39);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  padding: 7px;
+  user-select: none;
+}
+.tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  color: #1c1c1c;
+  transition: 0.2s;
+  border-radius: 14px;
+  user-select: none;
+}
+.tab_active {
+  background: rgba(114, 118, 165, 0.183);
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+}

@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.6.0",
     "@tailwindcss/vite": "^4.1.13",
+    "framer-motion": "^12.23.12",
+    "lottie-react": "^2.4.1",
+    "lottie-web": "^5.13.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

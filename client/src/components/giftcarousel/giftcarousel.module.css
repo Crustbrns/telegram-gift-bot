@@ -1,0 +1,40 @@
+.container {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    /* background-color: rgb(162, 168, 184); */
+    height: 200px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card_holder{
+    margin: -60px;
+    display: flex;
+    padding: 20px 0;
+    gap: 20px;
+    overflow-x: hidden;
+}
+
+.card_container {
+    padding: 20px;
+    background-color: #18222c;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+
+}
+
+.card_image {
+    max-width: 130px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* 
+.carousel_track {
+  width: max-content;
+  animation: scroll 20s linear infinite;
+} */

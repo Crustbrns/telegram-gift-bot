@@ -1,0 +1,10 @@
+.container {
+    text-align: center;
+    font-weight: 500;
+}
+
+.main_text {
+    color: black;
+    margin: auto;
+    width: 80%;
+}
