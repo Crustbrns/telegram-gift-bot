@@ -28,7 +28,7 @@ function App() {
       <Container>
         <SegmentedTabs />
         <Title />
-        <GiftCarousel gifts={gifts} winningIndex={10} />
+        <GiftCarousel gifts={gifts} winningIndex={0} />
       </Container>
     </>
   );

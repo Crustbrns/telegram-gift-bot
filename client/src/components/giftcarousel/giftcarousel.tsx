@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
 import { TbTriangleFilled } from "react-icons/tb";
@@ -11,16 +11,13 @@ export type GiftType = {
 
 type Props = {
   gifts: GiftType[];
-  winningIndex?: number;
+  winningIndex: number; // теперь обязателен
   onFinish?: (gift: GiftType) => void;
 };
 
 function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
-  const [cards] = useState<GiftType[]>(() =>
-    Array(40)
-      .fill(null)
-      .flatMap(() => gifts)
-  );
+  // создаём длинную дорожку для эффекта «крутится долго»
+  const cards: GiftType[] = Array(40).fill(null).flatMap(() => gifts);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -28,38 +25,28 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
     const el = ref.current;
     if (!el) return;
 
-    const baseIndex =
-      winningIndex !== undefined
-        ? winningIndex
-        : Math.floor(Math.random() * gifts.length);
-
     const accelDuration = 1500;
     const steadyDuration = 200;
-    const decelDuration = 8000;
+    const decelDuration = 2000;
     const totalDuration = accelDuration + steadyDuration + decelDuration;
 
     const startScroll = el.scrollLeft;
-
     const items = Array.from(el.children) as HTMLElement[];
     if (items.length === 0) return;
 
-    //   const cardWidth = items[0].offsetWidth;
-    //   const gap =
-    //     items.length > 1
-    //       ? items[1].offsetLeft - items[0].offsetLeft - cardWidth
-    //       : 0;
-    //   const cardFullWidth = cardWidth + gap;
-
+    // делаем несколько кругов и останавливаемся именно на winningIndex
     const spins = Math.floor(25 + Math.random() * 10);
-    const finalIndex = spins * gifts.length + baseIndex;
+    const finalIndex = spins * gifts.length + winningIndex;
 
     const targetNode = items[finalIndex];
     if (!targetNode) return;
 
+    // вычисляем смещение, чтобы целевая карточка оказалась в центре
     const nodeCenter = targetNode.offsetLeft + targetNode.offsetWidth / 2;
     const containerCenter = startScroll + el.clientWidth / 2;
     const totalDiff = nodeCenter - containerCenter;
 
+    // easing-функции
     const easeInQuad = (t: number) => t * t;
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -90,7 +77,9 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
       if (elapsed < totalDuration) {
         animId = requestAnimationFrame(step);
       } else {
-        onFinish?.(gifts[baseIndex]);
+        // фиксируем на центре выбранной карточки
+        el!.scrollLeft = startScroll + totalDiff;
+        onFinish?.(gifts[winningIndex]);
       }
     }
 
@@ -113,11 +102,9 @@ function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
         </div>
       </div>
       <div className={classes.arrow_container}>
-      <TbTriangleFilled className={classes.arrow} color="black" size={25}/>
+        <TbTriangleFilled className={classes.arrow} color="black" size={25} />
       </div>
-      <div className={classes.button}>
-          Мне повезет!
-      </div>
+      <div className={classes.button}>Мне повезет!</div>
     </div>
   );
 }

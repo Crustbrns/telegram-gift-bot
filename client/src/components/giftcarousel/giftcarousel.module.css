@@ -31,7 +31,7 @@
     margin: -60px;
     display: flex;
     padding: 20px 0;
-    gap: 20px;
+    gap: 8px;
     overflow-x: hidden;
 }
 
@@ -90,7 +90,7 @@
 
 .arrow {
     margin-top: 20px;
-    animation: rollarrow 9s ease;
+    animation: rollarrow 4s ease;
 }
 
 @keyframes rollarrow {
