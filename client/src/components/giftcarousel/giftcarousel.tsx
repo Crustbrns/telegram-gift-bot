@@ -24,7 +24,7 @@ function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
 }
 
 function Giftcarousel({ gifts }: Props) {
-  const [cards] = React.useState<GiftType[]>(() => GenerateGift(gifts, 50));
+  const [cards] = React.useState<GiftType[]>(() => GenerateGift(gifts, 60));
   const [offset, setOffset] = React.useState(0);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ function Giftcarousel({ gifts }: Props) {
     const startTime = lastTime;
 
     const speed = { current: 0 };
+    const accel = { current: 0.05 };
 
     function animate(now: number) {
       const delta = (now - lastTime) / (1000 / 60);
@@ -41,9 +42,15 @@ function Giftcarousel({ gifts }: Props) {
       setOffset((prev) => prev - speed.current * delta);
 
       if (now - startTime < 1500) {
-        speed.current += 0.3;
+        speed.current += 0.7;
       } else {
-        speed.current = Math.max(0, speed.current - 0.08);
+        if (now - startTime < 2600) {
+            speed.current = Math.max(0, speed.current - 0.6);
+        }
+        else {
+            speed.current = Math.max(0, speed.current - accel.current);
+            accel.current += 0.00025;
+        }
       }
 
       frame = requestAnimationFrame(animate);
