@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
 import { TbTriangleFilled } from "react-icons/tb";
@@ -24,9 +24,7 @@ function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
 }
 
 function Giftcarousel({ gifts }: Props) {
-  const [cards] = React.useState<GiftType[]>(() =>
-    GenerateGift(gifts, 50)
-  );
+  const [cards] = React.useState<GiftType[]>(() => GenerateGift(gifts, 50));
   const [offset, setOffset] = React.useState(0);
 
   useEffect(() => {
