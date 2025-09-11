@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
 import { TbTriangleFilled } from "react-icons/tb";
@@ -11,94 +11,67 @@ export type GiftType = {
 
 type Props = {
   gifts: GiftType[];
-  winningIndex: number; // теперь обязателен
-  onFinish?: (gift: GiftType) => void;
+  winningIndex: number;
 };
 
-function Giftcarousel({ gifts, winningIndex, onFinish }: Props) {
-  // создаём длинную дорожку для эффекта «крутится долго»
-  const cards: GiftType[] = Array(40).fill(null).flatMap(() => gifts);
+function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
+  if (count === 0) new Array<GiftType>(gifts[0]);
+  const tempgifts = new Array<GiftType>();
+  for (let i = 0; i < count; i++) {
+    tempgifts.push(gifts[Math.floor(Math.random() * gifts.length)]);
+  }
+  return tempgifts;
+}
 
-  const ref = useRef<HTMLDivElement>(null);
+function Giftcarousel({ gifts }: Props) {
+  const [cards] = React.useState<GiftType[]>(() =>
+    GenerateGift(gifts, 50)
+  );
+  const [offset, setOffset] = React.useState(0);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    let frame: number;
+    let lastTime = performance.now();
+    const startTime = lastTime;
 
-    const accelDuration = 1500;
-    const steadyDuration = 200;
-    const decelDuration = 2000;
-    const totalDuration = accelDuration + steadyDuration + decelDuration;
+    const speed = { current: 0 };
 
-    const startScroll = el.scrollLeft;
-    const items = Array.from(el.children) as HTMLElement[];
-    if (items.length === 0) return;
+    function animate(now: number) {
+      const delta = (now - lastTime) / (1000 / 60);
+      lastTime = now;
 
-    // делаем несколько кругов и останавливаемся именно на winningIndex
-    const spins = Math.floor(25 + Math.random() * 10);
-    const finalIndex = spins * gifts.length + winningIndex;
+      setOffset((prev) => prev - speed.current * delta);
 
-    const targetNode = items[finalIndex];
-    if (!targetNode) return;
-
-    // вычисляем смещение, чтобы целевая карточка оказалась в центре
-    const nodeCenter = targetNode.offsetLeft + targetNode.offsetWidth / 2;
-    const containerCenter = startScroll + el.clientWidth / 2;
-    const totalDiff = nodeCenter - containerCenter;
-
-    // easing-функции
-    const easeInQuad = (t: number) => t * t;
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    let start: number | null = null;
-    let animId: number;
-
-    function step(timestamp: number) {
-      if (start === null) start = timestamp;
-      const elapsed = timestamp - start;
-
-      let progress: number;
-      if (elapsed < accelDuration) {
-        const local = elapsed / accelDuration;
-        progress = 0.3 * easeInQuad(local);
-      } else if (elapsed < accelDuration + steadyDuration) {
-        const local = (elapsed - accelDuration) / steadyDuration;
-        progress = 0.3 + 0.1 * local;
-      } else if (elapsed < totalDuration) {
-        const local =
-          (elapsed - accelDuration - steadyDuration) / decelDuration;
-        progress = 0.4 + 0.6 * easeOutCubic(local);
+      if (now - startTime < 1500) {
+        speed.current += 0.3;
       } else {
-        progress = 1;
+        speed.current = Math.max(0, speed.current - 0.08);
       }
 
-      el!.scrollLeft = startScroll + totalDiff * progress;
-
-      if (elapsed < totalDuration) {
-        animId = requestAnimationFrame(step);
-      } else {
-        // фиксируем на центре выбранной карточки
-        el!.scrollLeft = startScroll + totalDiff;
-        onFinish?.(gifts[winningIndex]);
-      }
+      frame = requestAnimationFrame(animate);
     }
 
-    animId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(animId);
-  }, [gifts, winningIndex, onFinish]);
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <div>
       <div className={classes.container}>
         <div className={classes.shadow_left}></div>
         <div className={classes.shadow_right}></div>
-        <div
-          ref={ref}
-          className={`${classes.card_holder} ${classes.carousel_track}`}
-        >
-          {cards.map((gift, i) => (
-            <Card key={i + gift.title + i} card={gift} />
-          ))}
+        <div className={`${classes.card_holder} ${classes.carousel_track}`}>
+          <div
+            style={{
+              transform: `translateX(${offset}px)`,
+              display: "flex",
+              gap: "8px",
+            }}
+          >
+            {cards.map((gift, i) => (
+              <Card key={i + gift.title + i} card={gift} />
+            ))}
+          </div>
         </div>
       </div>
       <div className={classes.arrow_container}>
