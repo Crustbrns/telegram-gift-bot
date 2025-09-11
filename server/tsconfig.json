@@ -40,7 +40,8 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
   "ts-node": {

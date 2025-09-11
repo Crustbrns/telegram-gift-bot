@@ -9,12 +9,12 @@ export function startBot() {
   const token = config.botToken;
   if (!token) {
     console.log(
-      '\x1b[31mNo bot token. Consider restarting the application.\x1b[0m',
+      "\x1b[31mNo bot token. Consider restarting the application.\x1b[0m",
     );
     return;
   }
 
-  const bot = new TelegramBot(token, { polling: true });
+  const bot = new TelegramBot(token);//{ polling: true }
 
   bot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
