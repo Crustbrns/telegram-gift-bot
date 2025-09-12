@@ -1,0 +1,38 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.3.1",
+    "@types/node-telegram-bot-api": "^0.64.10",
+    "@types/swagger-ui-express": "^4.1.8",
+    "dotenv": "^17.2.2",
+    "eslint": "^9.35.0",
+    "express": "^5.1.0",
+    "install": "^0.13.0",
+    "nodemon": "^3.1.10",
+    "npm": "^11.6.0",
+    "prettier": "^3.6.2",
+    "swagger-autogen": "^2.23.7",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon",
+    "lint": "eslint 'src/**/*.ts'",
+    "swagger": "node src/swagger.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express-slow-down": "^3.0.0",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.18.1",
+    "morgan": "^1.10.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
