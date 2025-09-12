@@ -1,7 +1,9 @@
 {
   "type": "module",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.3.1",
     "@types/node-telegram-bot-api": "^0.64.10",
     "@types/swagger-ui-express": "^4.1.8",
@@ -25,7 +27,11 @@
     "swagger": "node src/swagger.ts"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express-slow-down": "^3.0.0",
+    "helmet": "^8.1.0",
     "mongoose": "^8.18.1",
+    "morgan": "^1.10.1",
     "node-telegram-bot-api": "^0.66.0",
     "swagger-ui-express": "^5.0.1"
   }

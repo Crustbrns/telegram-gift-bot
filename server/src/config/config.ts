@@ -1,4 +1,4 @@
-import dotenv from 'dotenv' ;
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -8,6 +8,7 @@ interface Config {
   nodeEnv: string;
   connectionString: string | undefined;
   botToken: string | undefined;
+  secretPassword: string;
 }
 
 const config: Config = {
@@ -16,6 +17,7 @@ const config: Config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   connectionString: process.env.CONNECTION_STRING,
   botToken: process.env.BOT_TOKEN,
+  secretPassword: process.env.SECRET_PASSWORD || 'Egorprivet123',
 };
 
 export default config;

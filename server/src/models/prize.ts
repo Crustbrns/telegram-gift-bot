@@ -1,7 +1,6 @@
 import { model, Schema } from 'mongoose';
 
 interface IPrize {
-  id: string;
   name: string;
   cost: number;
   droprate: number;
@@ -9,11 +8,6 @@ interface IPrize {
 }
 
 const prizesSchema = new Schema<IPrize>({
-  id: {
-    type: String,
-    require: true,
-    unique: true,
-  },
   name: {
     type: String,
     required: true,
