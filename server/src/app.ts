@@ -28,7 +28,7 @@ if (config.nodeEnv == 'development') {
 }
 
 app.use('/api/prizes', prizeRoutes);
-app.use('/api/roll', rollRoutes);
+app.use('/api/rolls', rollRoutes);
 
 app.use(errorHandler);
 

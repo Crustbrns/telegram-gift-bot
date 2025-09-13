@@ -9,6 +9,7 @@ interface Config {
   connectionString: string | undefined;
   botToken: string | undefined;
   secretPassword: string;
+  RTP: number;
 }
 
 const config: Config = {
@@ -18,6 +19,7 @@ const config: Config = {
   connectionString: process.env.CONNECTION_STRING,
   botToken: process.env.BOT_TOKEN,
   secretPassword: process.env.SECRET_PASSWORD || 'Egorprivet123',
+  RTP: Number(process.env.RTP) || 0.75,
 };
 
 export default config;
