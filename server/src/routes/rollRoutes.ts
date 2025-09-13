@@ -1,10 +1,23 @@
 import { Router } from 'express';
 import {
-  roll
+  chances,
+  createRoll,
+  deleteRoll,
+  getRollById,
+  getRolls,
+  roll,
+  updateRoll
 } from "../controllers/rollController.ts";
 
 const router = Router();
 
-router.post('/', roll);
+router.get('/', getRolls);
+router.get('/:id', getRollById);
+router.post('/', createRoll);
+router.put('/:id', updateRoll);
+router.delete('/:id', deleteRoll);
+
+router.post('/roll', roll);
+router.get('/chances/:id', chances);
 
 export default router;

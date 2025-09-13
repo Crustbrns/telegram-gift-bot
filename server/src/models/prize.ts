@@ -1,10 +1,9 @@
 import { model, Schema } from 'mongoose';
 
-interface IPrize {
+export interface IPrize {
   name: string;
   cost: number;
-  droprate: number;
-  created_on: Date;
+  createdOn: Date;
 }
 
 const prizesSchema = new Schema<IPrize>({
@@ -18,13 +17,7 @@ const prizesSchema = new Schema<IPrize>({
     required: true,
     min: 0,
   },
-  droprate: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 1,
-  },
-  created_on: {
+  createdOn: {
     type: Date,
     default: Date.now,
   },

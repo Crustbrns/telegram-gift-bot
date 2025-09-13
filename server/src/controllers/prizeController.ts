@@ -1,8 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { Prize } from '../models/prize.ts';
-import { randomUUID } from 'crypto';
 
-// Create an Prize
 export async function createPrize(
   req: Request,
   res: Response,
@@ -13,8 +11,7 @@ export async function createPrize(
             description: 'Add new prize.',
             schema: {
                 name: 'Flower',
-                cost: 100,
-                droprate: 0.1
+                cost: 100
             }
     } */
   try {
@@ -26,7 +23,6 @@ export async function createPrize(
   }
 }
 
-// Read all Prizes
 export async function getPrizes(
   req: Request,
   res: Response,
@@ -45,7 +41,6 @@ export async function getPrizes(
   }
 }
 
-// Read single Prize
 export async function getPrizeById(
   req: Request,
   res: Response,
@@ -65,7 +60,6 @@ export async function getPrizeById(
   }
 }
 
-// Update an Prize
 export async function updatePrize(
   req: Request,
   res: Response,
@@ -76,12 +70,11 @@ export async function updatePrize(
             description: 'Add new prize.',
             schema: {
                 name: 'Flower',
-                cost: 100,
-                droprate: 0.1
+                cost: 100
             }
     } */
-  const { id } = req.params;
-  try {
+   try {
+    const { id } = req.params;
     const updatedPrize = await Prize.findByIdAndUpdate(id, req.body, {
       new: true,
     });
@@ -92,20 +85,19 @@ export async function updatePrize(
 
     res
       .status(200)
-      .json({ message: 'Prize updated successfully', user: updatedPrize });
+      .json({ message: 'Prize updated successfully', prize: updatedPrize });
   } catch (error) {
     next(error);
   }
 }
 
-// Delete an Prize
 export async function deletePrize(
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
     const deletedPrize = await Prize.findByIdAndDelete(id);
     if (!deletedPrize) {
       return res.status(404).json({ message: 'Prize not found' });
@@ -113,7 +105,7 @@ export async function deletePrize(
 
     res
       .status(200)
-      .json({ message: 'Prize deleted successfully', user: deletedPrize });
+      .json({ message: 'Prize deleted successfully', prize: deletedPrize });
   } catch (error) {
     next(error);
   }
