@@ -7,7 +7,7 @@ import {
   getRolls,
   roll,
   updateRoll
-} from "../controllers/rollController.ts";
+} from "../controllers/rollController.js";
 
 const router = Router();
 
