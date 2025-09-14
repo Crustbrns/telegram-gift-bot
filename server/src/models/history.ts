@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { type IUser } from './user.ts';
-import { type IPrize } from './prize.ts';
+import { type IUser } from './user.js';
+import { type IPrize } from './prize.js';
 
 export interface IHistory {
   userId: IUser;
