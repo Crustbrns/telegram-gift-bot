@@ -12,6 +12,33 @@
     
 }
 
+.pointer {
+    z-index: 200;
+    position: absolute;
+    left: calc(50% - 0.5px);
+    width: 1px;
+    background-color: #ffb114;
+    height: 100%;
+}
+
+.arrowpointer {
+    z-index: 200;
+    color: #ffb114;
+    position: absolute;
+    left: calc(50% - 10px);
+    bottom: -10px;
+}
+
+
+.arrowpointerdown {
+    z-index: 200;
+    color: #ffb114;
+    position: absolute;
+    left: calc(50% - 10px);
+    top: -10px;
+    transform: rotate(180deg);
+}
+
 .shadow_left {
     position: absolute;
     left: 0;
@@ -27,7 +54,8 @@
     position: absolute;
     right: 0;
     top: 0;
-    background: linear-gradient(90deg,rgba(28, 28, 28, 0) 0%, rgba(28, 28, 28, 0.46) 70%, rgba(28, 28, 28, 1) 100%);
+    background: #181414;
+    background: linear-gradient(90deg, rgba(24, 20, 20, 0) 0%, rgba(24, 20, 20, 0.46) 70%, rgba(24, 20, 20, 1) 100%);
     width: 80px;
     z-index: 10;
     height: 100%;

@@ -5,7 +5,7 @@ import GiftCarousel, {
 } from "./components/giftcarousel/giftcarousel";
 import { img0, img1, img10, img2, img3, img4, img5, img6, img7, img8, img9 } from "./components/giftcarousel/images";
 import SegmentedTabs from "./components/tabs/segmentedtabs";
-import Title from "./components/title/title";
+// import Title from "./components/title/title";
 // import Tabs from "./components/tabs/tabs";
 
 const gifts: GiftType[] = [
@@ -22,13 +22,15 @@ const gifts: GiftType[] = [
   { image: img10, title: "nft", price: "15" },
 ];
 
+const gift : GiftType = gifts[0];
+
 function App() {
   return (
     <>
       <Container>
         <SegmentedTabs />
         {/* <Title /> */}
-        <GiftCarousel gifts={gifts} winningIndex={0} />
+        <GiftCarousel gifts={gifts} winItem={gift} />
         
       </Container>
     </>

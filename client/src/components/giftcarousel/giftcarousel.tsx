@@ -11,7 +11,7 @@ export type GiftType = {
 
 type Props = {
   gifts: GiftType[];
-  winningIndex: number;
+  winItem: GiftType;
 };
 
 function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
@@ -65,6 +65,9 @@ function Giftcarousel({ gifts }: Props) {
       <div className={classes.container}>
         <div className={classes.shadow_left}></div>
         <div className={classes.shadow_right}></div>
+        <div className={classes.pointer}></div>
+        <TbTriangleFilled className={classes.arrowpointerdown} size={20} />
+        <TbTriangleFilled className={classes.arrowpointer} size={20} />
         <div className={`${classes.card_holder} ${classes.carousel_track}`}>
           <div
             style={{
@@ -79,9 +82,9 @@ function Giftcarousel({ gifts }: Props) {
           </div>
         </div>
       </div>
-      <div className={classes.arrow_container}>
+      {/* <div className={classes.arrow_container}>
         <TbTriangleFilled className={classes.arrow} color="black" size={25} />
-      </div>
+      </div> */}
       <div className={classes.button}>Мне повезет!</div>
     </div>
   );
