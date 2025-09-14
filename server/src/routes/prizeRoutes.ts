@@ -5,7 +5,7 @@ import {
   getPrizeById,
   updatePrize,
   deletePrize,
-} from '../controllers/prizeController.ts';
+} from '../controllers/prizeController.js';
 
 const router = Router();
 

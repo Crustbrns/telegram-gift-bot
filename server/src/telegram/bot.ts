@@ -1,5 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
-import config from '../config/config.ts';
+import config from '../config/config.js';
 
 const wepAppUrl = 'https://telegra.ph/Test-page-hello-09-10';
 const termsUrl = 'https://telegra.ph/Test-page-hello-09-10';

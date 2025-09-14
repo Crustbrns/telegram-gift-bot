@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { type IPrize } from './prize.ts';
+import { type IPrize } from './prize.js';
 
 export interface IRoll {
   name: string;

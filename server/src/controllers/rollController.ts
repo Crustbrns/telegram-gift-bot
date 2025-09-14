@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
-import { Roll, type IRoll } from '../models/roll.ts';
-import { User } from '../models/user.ts';
-import { Prize, type IPrize } from '../models/prize.ts';
-import config from '../config/config.ts';
+import { Roll, type IRoll } from '../models/roll.js';
+import { User } from '../models/user.js';
+import { Prize, type IPrize } from '../models/prize.js';
+import config from '../config/config.js';
 
 export async function createRoll(
   req: Request,

@@ -1,8 +1,8 @@
 import express from 'express';
-import prizeRoutes from './routes/prizeRoutes.ts';
-import rollRoutes from './routes/rollRoutes.ts';
-import { errorHandler } from './middlewares/errorHandler.ts';
-import config from './config/config.ts';
+import prizeRoutes from './routes/prizeRoutes.js';
+import rollRoutes from './routes/rollRoutes.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import config from './config/config.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger-output.json' with { type: 'json' };
 import cors from 'cors';

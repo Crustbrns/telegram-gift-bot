@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { Prize } from '../models/prize.ts';
+import { Prize } from '../models/prize.js';
 
 export async function createPrize(
   req: Request,
