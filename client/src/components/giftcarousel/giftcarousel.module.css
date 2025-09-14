@@ -1,19 +1,24 @@
 .container {
-    width: calc(100% + 40px);
-    margin-left: -20px;
-    /* background-color: rgb(162, 168, 184); */
+    /* width: calc(100% + 40px); */
+    width: 100%;
+    /* margin-left: -20px; */
+    border-radius: 15px;
+    background-color: #181414;
     height: 230px;
     display: flex;
     align-items: center;
     overflow: hidden;
     position: relative;
+    
 }
 
 .shadow_left {
     position: absolute;
     left: 0;
     top: 0;
-    background: linear-gradient(90deg,rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.46) 30%, rgba(255, 255, 255, 0) 100%);
+    background: #181414;
+    background: linear-gradient(90deg, rgba(24, 20, 20, 1) 0%, rgba(24, 20, 20, 0.46) 30%, rgba(24, 20, 20, 0) 100%);
+    z-index: 100;
     width: 80px;
     height: 100%;
 }
@@ -22,21 +27,23 @@
     position: absolute;
     right: 0;
     top: 0;
-    background: linear-gradient(90deg,rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.46) 70%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(90deg,rgba(28, 28, 28, 0) 0%, rgba(28, 28, 28, 0.46) 70%, rgba(28, 28, 28, 1) 100%);
     width: 80px;
+    z-index: 10;
     height: 100%;
 }
 
 .card_holder{
     margin: -60px;
     display: flex;
-    padding: 20px 0;
+    padding: 30px 10px;
     gap: 8px;
     overflow-x: hidden;
+    
 }
 
 .button {
-    background-color: #f23031;
+    background-color: #00aeff;
     color: white;
     text-align: center;
     padding: 14px;
@@ -60,7 +67,7 @@
 
 .card_container {
     padding: 20px;
-    background-color: #18222c;
+    background-color: #1e1e26;
     display: flex;
     flex-direction: column;
     border-radius: 16px;

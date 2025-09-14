@@ -70,7 +70,7 @@ function Giftcarousel({ gifts }: Props) {
             style={{
               transform: `translateX(${offset}px)`,
               display: "flex",
-              gap: "8px",
+              gap: "10px"
             }}
           >
             {cards.map((gift, i) => (
