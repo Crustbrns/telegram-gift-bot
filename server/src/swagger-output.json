@@ -5,7 +5,7 @@
     "description": "API for gift bot",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://telegram-gift-bot-3jp7.onrender.com",
   "basePath": "/",
   "schemes": [
     "http"
@@ -290,9 +290,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "400": {
             "description": "Bad Request"
           },
@@ -314,9 +311,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "404": {
             "description": "Not Found"
           }
