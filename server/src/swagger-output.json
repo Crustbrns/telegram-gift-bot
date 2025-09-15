@@ -8,7 +8,7 @@
   "host": "telegram-gift-bot-3jp7.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api/prizes/": {

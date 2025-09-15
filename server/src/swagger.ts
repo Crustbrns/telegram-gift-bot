@@ -8,6 +8,7 @@ const doc = {
     description: 'API for gift bot',
   },
   host: config.host,
+  schemes: ['https'],
 };
 
 const swaggerFile = './swagger-output.json';
