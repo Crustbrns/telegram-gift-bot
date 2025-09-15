@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 // app.use(helmet());
-app.use(cors());//change origin in future
+//app.use(cors());//change origin in future
 
 // const limiter = slowDown({
 //   windowMs: 15 * 60 * 1000, // 15 minutes
