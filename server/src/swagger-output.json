@@ -5,7 +5,7 @@
     "description": "API for gift bot",
     "version": "1.0.0"
   },
-  "host": "https://telegram-gift-bot-3jp7.onrender.com",
+  "host": "telegram-gift-bot-3jp7.onrender.com",
   "basePath": "/",
   "schemes": [
     "http"

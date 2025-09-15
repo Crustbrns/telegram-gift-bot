@@ -1,5 +1,6 @@
 import swaggerAutogen from 'swagger-autogen';
-import config from './config/config.js';
+// @ts-ignore
+import config from './config/config.ts';
 
 const doc = {
   info: {
@@ -10,6 +11,6 @@ const doc = {
 };
 
 const swaggerFile = './swagger-output.json';
-const routes = ['./app.js'];
+const routes = ['./app.ts'];
 
 swaggerAutogen()(swaggerFile, routes, doc);
