@@ -5,9 +5,10 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import config from './config/config.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger-output.json' with { type: 'json' };
-import cors from 'cors';
+//import cors from 'cors';
 // import slowDown from 'express-slow-down';
 import morgan from "morgan";
+import pingRoute from './routes/pingRoute.js';
 // import helmet from 'helmet';
 
 const app = express();
@@ -29,6 +30,7 @@ if (config.nodeEnv == 'development') {
 
 app.use('/api/prizes', prizeRoutes);
 app.use('/api/rolls', rollRoutes);
+app.use('/ping', pingRoute);
 
 app.use(errorHandler);
 
