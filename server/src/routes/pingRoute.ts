@@ -8,9 +8,8 @@ router.get('', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const pingURL = config.pingURL;
     console.log('Sending ping to ' + pingURL);
-    await fetch(pingURL);
-    console.log('Successful!');
-    res.status(200);
+    fetch(pingURL).then(() => console.log("Successful!"));
+    res.status(200).json('Ping done!');
   } catch (error) {
     next(error);
   }
