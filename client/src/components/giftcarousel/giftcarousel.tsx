@@ -9,6 +9,11 @@ export type GiftType = {
   price: string;
 };
 
+export type GiftImage = {
+  image: string;
+  _id: string;
+};
+
 type Props = {
   gifts: GiftType[];
   winItem: GiftType;
@@ -26,6 +31,7 @@ function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
 function Giftcarousel({ gifts }: Props) {
   const [cards] = React.useState<GiftType[]>(() => GenerateGift(gifts, 60));
   const [offset, setOffset] = React.useState(0);
+  // const [count, setCount] = React.useState(0);
 
   useEffect(() => {
     let frame: number;
@@ -40,25 +46,35 @@ function Giftcarousel({ gifts }: Props) {
       lastTime = now;
 
       setOffset((prev) => prev - speed.current * delta);
+      // setCount((prev) => prev + Math.max(1, Math.floor(delta)/100));
 
       if (now - startTime < 1500) {
         speed.current += 0.7;
       } else {
         if (now - startTime < 2600) {
-            speed.current = Math.max(0, speed.current - 0.6);
-        }
-        else {
-            speed.current = Math.max(0, speed.current - accel.current);
-            accel.current += 0.00025;
+          speed.current = Math.max(0, speed.current - 0.6);
+        } else {
+          speed.current = Math.max(0, speed.current - accel.current);
+          accel.current += 0.00025;
         }
       }
 
+      console.log(count);
       frame = requestAnimationFrame(animate);
     }
 
     frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, []);
+    // const interval = setInterval(() => {
+    //   console.log("Тик" + count, new Date().toLocaleTimeString());
+    //   setCount((prev) => prev + 1);
+    // }, 1000);
+
+    // очищаем интервал при размонтировании
+    return () => {
+      cancelAnimationFrame(frame);
+      // clearInterval(interval);
+    };
+  }, [count]);
 
   return (
     <div>
@@ -73,7 +89,7 @@ function Giftcarousel({ gifts }: Props) {
             style={{
               transform: `translateX(${offset}px)`,
               display: "flex",
-              gap: "10px"
+              gap: "10px",
             }}
           >
             {cards.map((gift, i) => (

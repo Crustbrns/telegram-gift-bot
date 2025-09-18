@@ -8,4 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://telegram-gift-bot-3jp7.onrender.com",
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 })

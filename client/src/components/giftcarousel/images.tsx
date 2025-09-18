@@ -8,6 +8,6 @@ import img6 from '../../assets/gifts/006.png';
 import img7 from '../../assets/gifts/007.png';
 import img8 from '../../assets/gifts/008.png';
 import img9 from '../../assets/gifts/009.png';
-import img10 from '../../assets/gifts/snoop.png';
+import img10 from '../../assets/gifts/010.png';
 
 export {img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10}
