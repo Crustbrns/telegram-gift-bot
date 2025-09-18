@@ -21,7 +21,7 @@ const config: Config = {
   botToken: process.env.BOT_TOKEN,
   secretPassword: process.env.SECRET_PASSWORD || 'Egorprivet123',
   RTP: Number(process.env.RTP) || 0.75,
-  pingURL: process.env.PING_URL || '',
+  pingURL: process.env.PING_URL || 'https://server-ping-rwcv.onrender.com/ping',
 };
 
 export default config;
