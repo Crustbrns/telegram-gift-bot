@@ -30,4 +30,4 @@ const historiesSchema = new Schema<IHistory>({
   },
 });
 
-export const History = model<IHistory>('Histories', historiesSchema);
+export const History = model<IHistory>('History', historiesSchema);

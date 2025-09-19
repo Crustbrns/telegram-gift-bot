@@ -11,7 +11,8 @@ export async function createPrize(
             description: 'Add new prize.',
             schema: {
                 name: 'Flower',
-                cost: 100
+                cost: 100,
+                hash: 'TxEGqI0z7g'
             }
     } */
   try {
@@ -70,7 +71,8 @@ export async function updatePrize(
             description: 'Add new prize.',
             schema: {
                 name: 'Flower',
-                cost: 100
+                cost: 100,
+                hash: 'TxEGqI0z7g'
             }
     } */
    try {

@@ -22,4 +22,4 @@ const rollsSchema = new Schema<IRoll>({
   }
 });
 
-export const Roll = model<IRoll>('Rolls', rollsSchema);
+export const Roll = model<IRoll>('Roll', rollsSchema);

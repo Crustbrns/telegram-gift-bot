@@ -3,6 +3,7 @@ import { model, Schema } from 'mongoose';
 export interface IPrize {
   name: string;
   cost: number;
+  hash: string;
   createdOn: Date;
 }
 
@@ -14,8 +15,11 @@ const prizesSchema = new Schema<IPrize>({
   },
   cost: {
     type: Number,
-    required: true,
     min: 0,
+  },
+  hash: {
+    type: String,
+    unique: true,
   },
   createdOn: {
     type: Date,
@@ -23,4 +27,4 @@ const prizesSchema = new Schema<IPrize>({
   },
 });
 
-export const Prize = model<IPrize>('Prizes', prizesSchema);
+export const Prize = model<IPrize>('Prize', prizesSchema);

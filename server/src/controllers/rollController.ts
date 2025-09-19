@@ -36,7 +36,7 @@ export async function getRolls(
   next: NextFunction,
 ) {
   try {
-    const rolls = await Roll.find();
+    const rolls = await Roll.find({}, { prizes: 0 });
     if (rolls.length == 0) {
       res.status(404).json({ message: 'Rolls not found' });
       return;
@@ -55,7 +55,7 @@ export async function getRollById(
 ) {
   try {
     const { id } = req.params;
-    const roll = await Roll.findById(id);
+    const roll = await Roll.findById(id).populate('prizes');
     if (!roll) {
       res.status(404).json({ message: 'Roll not found' });
       return;

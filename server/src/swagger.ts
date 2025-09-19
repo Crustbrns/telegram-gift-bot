@@ -11,6 +11,10 @@ const doc = {
   schemes: ['https'],
 };
 
+if (config.host.includes('localhost')) {
+  doc.schemes = ['http'];
+}
+
 const swaggerFile = './swagger-output.json';
 const routes = ['./app.ts'];
 

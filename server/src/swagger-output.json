@@ -5,10 +5,10 @@
     "description": "API for gift bot",
     "version": "1.0.0"
   },
-  "host": "telegram-gift-bot-3jp7.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/api/prizes/": {
@@ -40,6 +40,10 @@
                 "cost": {
                   "type": "number",
                   "example": 100
+                },
+                "hash": {
+                  "type": "string",
+                  "example": "TxEGqI0z7g"
                 }
               }
             }
@@ -95,6 +99,10 @@
                 "cost": {
                   "type": "number",
                   "example": 100
+                },
+                "hash": {
+                  "type": "string",
+                  "example": "TxEGqI0z7g"
                 }
               }
             }
