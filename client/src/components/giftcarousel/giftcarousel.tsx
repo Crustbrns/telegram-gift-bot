@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
 import { TbTriangleFilled } from "react-icons/tb";
+import { DefaultGifts } from "../../rolls/DefaultGifts";
 
 export type GiftType = {
   image: string;
@@ -12,34 +13,48 @@ export type GiftType = {
 export type GiftImage = {
   image: string;
   _id: string;
+  title: string;
+  price: string;
 };
 
 type Props = {
-  gifts: GiftType[];
-  winItem: GiftType;
+  gifts: string[];
+  winItem: GiftImage;
 };
 
-function GenerateGift(gifts: Array<GiftType>, count: number): Array<GiftType> {
-  if (count === 0) new Array<GiftType>(gifts[0]);
-  const tempgifts = new Array<GiftType>();
+function GenerateGift(gifts: Array<string>, count: number): Array<GiftImage> {
+  if (count === 0)
+    new Array<GiftImage>(
+      DefaultGifts[DefaultGifts.findIndex((x) => x._id === gifts[0])]
+    );
+  const tempgifts = new Array<GiftImage>();
   for (let i = 0; i < count; i++) {
-    tempgifts.push(gifts[Math.floor(Math.random() * gifts.length)]);
+    tempgifts.push(DefaultGifts[Math.floor(Math.random() * gifts.length)]);
   }
   return tempgifts;
 }
 
 function Giftcarousel({ gifts }: Props) {
-  const [cards] = React.useState<GiftType[]>(() => GenerateGift(gifts, 60));
+  const [cards] = React.useState<GiftImage[]>(() => GenerateGift(gifts, 14));
   const [offset, setOffset] = React.useState(0);
-  // const [count, setCount] = React.useState(0);
+  const [width, setWidth] = React.useState(0);
 
   useEffect(() => {
     let frame: number;
     let lastTime = performance.now();
-    const startTime = lastTime;
+    // const startTime = lastTime;
+    function checkWidth() {
+      setWidth(window.innerWidth);
+    }
 
-    const speed = { current: 0 };
-    const accel = { current: 0.05 };
+    // проверяем сразу
+    checkWidth();
+
+    // навешиваем слушатель
+    window.onresize = checkWidth;
+
+    const speed = { current: 58.4 };
+    // const accel = { current: 0.05 };
 
     function animate(now: number) {
       const delta = (now - lastTime) / (1000 / 60);
@@ -47,19 +62,19 @@ function Giftcarousel({ gifts }: Props) {
 
       setOffset((prev) => prev - speed.current * delta);
       // setCount((prev) => prev + Math.max(1, Math.floor(delta)/100));
+      speed.current = Math.max(0, speed.current - 1 * delta);
+      // if (now - startTime < 400) {
+      //   speed.current += 3;
+      // } else {
+      //   if (now - startTime < 2600) {
+      //     speed.current = Math.max(0, speed.current - 0.6);
+      //   } else {
+      //     speed.current = Math.max(0, speed.current - accel.current);
+      //     accel.current += 0.00025;
+      //   }
+      // }
 
-      if (now - startTime < 1500) {
-        speed.current += 0.7;
-      } else {
-        if (now - startTime < 2600) {
-          speed.current = Math.max(0, speed.current - 0.6);
-        } else {
-          speed.current = Math.max(0, speed.current - accel.current);
-          accel.current += 0.00025;
-        }
-      }
-
-      console.log(count);
+      // console.log(count);
       frame = requestAnimationFrame(animate);
     }
 
@@ -74,7 +89,7 @@ function Giftcarousel({ gifts }: Props) {
       cancelAnimationFrame(frame);
       // clearInterval(interval);
     };
-  }, [count]);
+  }, []);
 
   return (
     <div>
@@ -90,6 +105,7 @@ function Giftcarousel({ gifts }: Props) {
               transform: `translateX(${offset}px)`,
               display: "flex",
               gap: "10px",
+              marginLeft: width > 720 ? 0 : -(720 - width)/2
             }}
           >
             {cards.map((gift, i) => (

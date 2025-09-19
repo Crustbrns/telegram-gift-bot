@@ -1,45 +1,31 @@
 // import Lottie from "lottie-react";
 import classes from "./giftcarousel.module.css";
-import type { GiftType } from "./giftcarousel";
-import React from "react";
-import type { AnimationConfigWithData } from "lottie-web";
+import type { GiftImage } from "./giftcarousel";
 import Star from "../svgs/star";
 
 type CardProps = {
-  card: GiftType;
+  card: GiftImage;
 };
 
 function Card({ card }: CardProps) {
-  const [animationData, setAnimationData] = React.useState<AnimationConfigWithData["animationData"] | null>(null);
+  // const [animationData, setAnimationData] = React.useState<AnimationConfigWithData["animationData"] | null>(null);
 
-  React.useEffect(() => {
-    if (card.title === "nft") {
-      fetch("https://nft.fragment.com/gift/hexpot-10348.lottie.json")
-        .then((res) => res.json())
-        .then(setAnimationData)
-        .catch((err) => console.error("Ошибка загрузки Lottie JSON:", err));
-    }
-  }, [card.title]);
-
+  // React.useEffect(() => {
+  //   if (card.title === "nft") {
+  //     fetch("https://nft.fragment.com/gift/hexpot-10348.lottie.json")
+  //       .then((res) => res.json())
+  //       .then(setAnimationData)
+  //       .catch((err) => console.error("Ошибка загрузки Lottie JSON:", err));
+  //   }
+  // }, [card.title]);
 
   return (
     <div className={classes.card_container}>
-      {card.title !== "nft" ? (<>
-        <img className={classes.card_image} src={card.image} alt={card.title} />
-        <div className={classes.card_price}><Star/><span className={classes.card_price_title}>{card.price}</span></div>
-        </>
-      ) : animationData ? (
-        <img className={classes.card_image} src={card.image} alt={card.title} />
-        
-        // <Lottie
-        //   className={classes.card_image}
-        //   autoplay
-        //   loop
-        //   animationData={animationData}
-        // />
-      ) : (
-        <div>Загрузка...</div>
-      )}
+      <img className={classes.card_image} src={card.image} alt={card.title} />
+      <div className={classes.card_price}>
+        <Star />
+        <span className={classes.card_price_title}>{card.price}</span>
+      </div>
     </div>
   );
 }

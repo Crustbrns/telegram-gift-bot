@@ -1,14 +1,16 @@
+import type { GiftImage } from "../components/giftcarousel/giftcarousel";
+
 export class Roll {
   _id: string;
   name: string;
-  prizes: string[];
+  prizes: GiftImage[];
   cost: number;
   __v: number;
 
   constructor(data: {
     _id: string;
     name: string;
-    prizes: string[];
+    prizes: GiftImage[];
     cost: number;
     __v: number;
   }) {
@@ -23,3 +25,19 @@ export class Roll {
     return `${this.name} (cost: ${this.cost})`;
   }
 }
+
+export let rolls: Roll;
+
+const fetchData = async () => {
+  try {
+    const res = await fetch("/api/rolls/");
+    const data = await res.json();
+    rolls = data[0];
+    console.log(rolls);
+  } catch (error) {
+    console.error("Ошибка загрузки:", error);
+  }
+};
+
+await fetchData();
+    // console.log(rolls);
