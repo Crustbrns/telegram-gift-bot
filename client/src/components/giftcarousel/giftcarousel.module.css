@@ -77,6 +77,19 @@
     padding: 14px;
     border-radius: 16px;
     margin-top: 30px;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.button_inactive {
+    cursor: default !important;
+    background-color: #434e52 !important;
+    transition: .3s ease;
+}
+
+.button:hover {
+    background-color: #167cea;
+    transition: .3s ease;
 }
 
 .card_price {
