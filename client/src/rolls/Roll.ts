@@ -28,7 +28,7 @@ export let rolls: Roll;
 
 const fetchData = async () => {
   try {
-    const res = await fetch("/api/rolls/");
+    const res = await fetch("https://telegram-gift-bot-3jp7.onrender.com/api/rolls/");
     const data = await res.json();
     rolls = data[0];
     console.log(rolls);
