@@ -209,58 +209,98 @@ function calculateChances(roll: IRoll) {
   const RTP = config.RTP;
   const targetReturn = roll.cost * RTP;
   const prizes = roll.prizes;
-  const costs = prizes.map((p) => p.cost);
 
-  // Softmax-based weighting: p_i = exp(alpha * cost_i) / sum_j exp(alpha * cost_j)
-  // Find alpha so expected payout matches targetReturn as close as possible.
-  const softmax = (alpha: number) => {
-    // subtract max for numerical stability
-    const maxC = Math.max(...costs.map(c => alpha * c));
-    const exps = costs.map(c => Math.exp(alpha * c - maxC));
+  // If none of the prizes has cost <= roll.cost, add a "no prize" option (cost 0)
+  const hasAffordable = prizes.some((p) => p.cost <= roll.cost);
+  const includeNoPrize = !hasAffordable;
+
+  // Build original costs array (append 0 for "no prize" when needed)
+  const costs = prizes.map((p) => p.cost);
+  if (includeNoPrize) costs.push(0);
+
+  // Transform costs to compress large gaps so expensive prizes still get reasonable probability.
+  // We will compute softmax on transformedCosts but expected payout uses original costs.
+  const transformedCosts = costs.map((c) => Math.log(1 + c));
+
+  const softmaxOnTransformed = (alpha: number) => {
+    const scaled = transformedCosts.map((tc) => alpha * tc);
+    const maxC = Math.max(...scaled);
+    const exps = scaled.map((s) => Math.exp(s - maxC));
     const sumExps = exps.reduce((a, b) => a + b, 0);
-    const probs = exps.map(e => e / sumExps);
+    const probs = exps.map((e) => e / sumExps);
     const expected = probs.reduce((s, p, i) => s + p * costs[i]!, 0);
     return { probs, expected };
   };
 
-  // If all costs are equal, return uniform distribution
-  const allEqual = costs.every(c => c === costs[0]);
+  // If all transformed costs are equal (very unlikely), return uniform distribution
+  const allEqual = transformedCosts.every((c) => c === transformedCosts[0]);
   if (allEqual) {
     const uniform = 1 / costs.length;
-    return prizes.map(p => ({ prize: p, chance: uniform }));
+    const result: { prize: IPrize | null; chance: number }[] = prizes.map((p) => ({ prize: p, chance: uniform }));
+    if (includeNoPrize) result.push({ prize: null, chance: uniform });
+    return result;
   }
 
-  // Binary search on alpha
+  // Binary search on alpha to try to match expected payout to targetReturn
   let low = -50;
   let high = 50;
   let bestProbs = costs.map(() => 1 / costs.length);
   let bestDiff = Infinity;
 
-  for (let iter = 0; iter < 60; iter++) {
+  for (let iter = 0; iter < 80; iter++) {
     const mid = (low + high) / 2;
-    const { probs, expected } = softmax(mid);
+    const { probs, expected } = softmaxOnTransformed(mid);
     const diff = Math.abs(expected - targetReturn);
     if (diff < bestDiff) {
       bestDiff = diff;
       bestProbs = probs;
     }
+    // increasing alpha increases weight on larger transformed costs => increases expected
     if (expected > targetReturn) {
-      // increasing alpha increases weight on higher costs => expected grows with alpha
       high = mid;
     } else {
       low = mid;
     }
   }
 
-  // Ensure numerical normalization and minimum floor so no exact zero probabilities
-  const EPS = 1e-12;
-  let adjusted = bestProbs.map(p => Math.max(p, EPS));
-  const sum = adjusted.reduce((a, b) => a + b, 0);
-  adjusted = adjusted.map(p => p / sum);
+  // Enforce a small minimum chance per outcome so expensive prizes never become effectively 0%
+  const MIN_CHANCE = 1e-4; // adjust as needed
+  const n = bestProbs.length;
+  const floorSum = MIN_CHANCE * n;
 
+  let adjusted: number[] = [];
+
+  if (floorSum >= 1) {
+    // If floor would exceed 1 (extremely large MIN_CHANCE or tiny n), fallback to uniform
+    adjusted = bestProbs.map(() => 1 / n);
+  } else {
+    // Give each outcome the MIN_CHANCE floor, then distribute remaining mass proportionally
+    const remainingMass = 1 - floorSum;
+    const probsWithoutFloor = bestProbs.map((p) => Math.max(0, p - MIN_CHANCE));
+    const sumWithoutFloor = probsWithoutFloor.reduce((a, b) => a + b, 0);
+
+    if (sumWithoutFloor <= 0) {
+      // If nothing left after floor, distribute remaining mass uniformly
+      const extra = remainingMass / n;
+      adjusted = Array(n).fill(MIN_CHANCE + extra);
+    } else {
+      adjusted = probsWithoutFloor.map((p) => MIN_CHANCE + (p / sumWithoutFloor) * remainingMass);
+    }
+  }
+
+  // Final normalization to avoid floating rounding issues
+  const sumAdjusted = adjusted.reduce((a, b) => a + b, 0);
+  adjusted = adjusted.map((p) => p / sumAdjusted);
+
+  // Build result; if we added "no prize", it is the last probability
   const result: { prize: IPrize | null; chance: number }[] = [];
   for (let i = 0; i < prizes.length; i++) {
     result.push({ prize: prizes[i] ?? null, chance: adjusted[i]! });
   }
+  if (includeNoPrize) {
+    const noPrizeChance = adjusted[adjusted.length - 1]!;
+    result.push({ prize: null, chance: noPrizeChance });
+  }
+
   return result;
 }
