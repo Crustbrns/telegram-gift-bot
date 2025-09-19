@@ -1,16 +1,14 @@
-import type { GiftImage } from "../components/giftcarousel/giftcarousel";
-
 export class Roll {
   _id: string;
   name: string;
-  prizes: GiftImage[];
+  prizes: string[];
   cost: number;
   __v: number;
 
   constructor(data: {
     _id: string;
     name: string;
-    prizes: GiftImage[];
+    prizes: string[];
     cost: number;
     __v: number;
   }) {

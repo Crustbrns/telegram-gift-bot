@@ -19,7 +19,7 @@ export type GiftImage = {
 
 type Props = {
   gifts: string[];
-  winItem: GiftImage;
+  winItem: string;
 };
 
 function GenerateGift(gifts: Array<string>, count: number): Array<GiftImage> {
