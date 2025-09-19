@@ -30,7 +30,7 @@ export async function getPrizes(
   next: NextFunction,
 ) {
   try {
-    const prizes = await Prize.find();
+    const prizes = await Prize.find().sort({ cost: 1 });
     if (prizes.length == 0) {
       res.status(404).json({ message: 'Prizes not found' });
       return;
@@ -75,7 +75,7 @@ export async function updatePrize(
                 hash: 'TxEGqI0z7g'
             }
     } */
-   try {
+  try {
     const { id } = req.params;
     const updatedPrize = await Prize.findByIdAndUpdate(id, req.body, {
       new: true,
