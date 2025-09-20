@@ -1,4 +1,3 @@
-import React from "react";
 import classes from "./NavButtons.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 
