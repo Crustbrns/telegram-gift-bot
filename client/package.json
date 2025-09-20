@@ -12,6 +12,8 @@
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.6.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@twa-dev/sdk": "^8.0.2",
+    "@twa-dev/types": "^8.0.2",
     "framer-motion": "^12.23.12",
     "lottie-react": "^2.4.1",
     "lottie-web": "^5.13.0",
