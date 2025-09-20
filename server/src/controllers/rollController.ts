@@ -131,7 +131,7 @@ export async function deleteRoll(
 export async function roll(req: Request, res: Response, next: NextFunction) {
   try {
     const { rollId, userId } = req.body;
-    const roll = await Roll.findById(rollId);
+    const roll = await Roll.findById(rollId).populate('prizes');
     if (!roll) {
       res.status(404).json({ message: 'Roll not found' });
       return;
@@ -148,9 +148,11 @@ export async function roll(req: Request, res: Response, next: NextFunction) {
       return;
     }
 
-    //const prize = rollPrize(roll);
-    user.balance -= roll.cost;
-    //res.status(200).json({ message: 'Success roll', prize: prize });
+    const result = rollPrize(roll);
+    await user.updateOne({ balance: (user.balance -= roll.cost) });
+    res
+      .status(200)
+      .json({ message: 'Success roll', prize: result.prize, chance: result.chance });
   } catch (error) {
     next(error);
   }
@@ -171,27 +173,38 @@ export async function chances(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-// function rollPrize(roll: IRoll): IPrize | null {
-//   const RTP = config.RTP;
-//   const targetReturn = roll.cost * RTP;
+type RollResult = {
+  prize: IPrize | null; // null = no prize
+  chance: number; // probability [0..1]
+};
 
-//   // Weight prizes toward target RTP
-//   const weights = roll.prizes.map((p) =>
-//     Math.max(0.01, targetReturn / (p.cost || 1)),
-//   );
+function rollPrize(roll: IRoll): RollResult {
+  // Let calculateChances throw on internal errors — we don't swallow them here.
+  const chances = calculateChances(roll); // returns RollChance[] possibly containing { prize: null, chance }
 
-//   const sum = weights.reduce((a, b) => a + b, 0);
+  if (!chances || chances.length === 0) {
+    throw new Error('No chances returned for roll.');
+  }
 
-//   const rand = Math.random() * sum;
-//   let cumulative = 0;
-//   for (let i = 0; i < roll.prizes.length; i++) {
-//     cumulative += weights[i] ?? 0;
-//     if (rand <= cumulative) {
-//       return roll.prizes[i] ?? null;
-//     }
-//   }
-//   return null;
-// }
+  const total = chances.reduce((s, c) => s + Math.max(0, c.chance), 0);
+  if (total <= 0) {
+    throw new Error('Total chance is zero or negative.');
+  }
+
+  let r = Math.random() * total;
+  for (const ch of chances) {
+    const p = Math.max(0, ch.chance);
+    if (r <= p) {
+      // return both the prize (nullable) and the actual probability of this outcome
+      return { prize: ch.prize ?? null, chance: p / total };
+    }
+    r -= p;
+  }
+
+  // Rounding fallback: return last defined outcome (may be null = no prize)
+  const last = chances[chances.length - 1];
+  return { prize: last?.prize ?? null, chance: Math.max(0, last?.chance ?? 0) / total };
+}
 
 type RollChance = {
   prize: IPrize | null; // null = no prize
@@ -203,7 +216,9 @@ function calculateChances(roll: IRoll) {
     throw new Error('No prizes in roll.');
   }
   if (roll.prizes.some((p) => !p.cost)) {
-    throw new Error('No cost in prize. Try to populate prize data with mongoose.');
+    throw new Error(
+      'No cost in prize. Try to populate prize data with mongoose.',
+    );
   }
 
   const RTP = config.RTP;
@@ -236,7 +251,10 @@ function calculateChances(roll: IRoll) {
   const allEqual = transformedCosts.every((c) => c === transformedCosts[0]);
   if (allEqual) {
     const uniform = 1 / costs.length;
-    const result: { prize: IPrize | null; chance: number }[] = prizes.map((p) => ({ prize: p, chance: uniform }));
+    const result: RollChance[] = prizes.map((p) => ({
+      prize: p,
+      chance: uniform,
+    }));
     if (includeNoPrize) result.push({ prize: null, chance: uniform });
     return result;
   }
@@ -284,7 +302,9 @@ function calculateChances(roll: IRoll) {
       const extra = remainingMass / n;
       adjusted = Array(n).fill(MIN_CHANCE + extra);
     } else {
-      adjusted = probsWithoutFloor.map((p) => MIN_CHANCE + (p / sumWithoutFloor) * remainingMass);
+      adjusted = probsWithoutFloor.map(
+        (p) => MIN_CHANCE + (p / sumWithoutFloor) * remainingMass,
+      );
     }
   }
 
@@ -293,7 +313,7 @@ function calculateChances(roll: IRoll) {
   adjusted = adjusted.map((p) => p / sumAdjusted);
 
   // Build result; if we added "no prize", it is the last probability
-  const result: { prize: IPrize | null; chance: number }[] = [];
+  const result: RollChance[] = [];
   for (let i = 0; i < prizes.length; i++) {
     result.push({ prize: prizes[i] ?? null, chance: adjusted[i]! });
   }
