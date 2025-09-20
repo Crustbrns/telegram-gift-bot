@@ -24,18 +24,53 @@ export class Roll {
   }
 }
 
-export let rolls: Roll;
+type PrizeData = {
+  _id: string;
+  name: string;
+  cost: number;
+};
 
-const fetchData = async () => {
+export class Prize {
+  _id: string;
+  name: string;
+  cost: number;
+
+  constructor(data: PrizeData) {
+    this._id = data._id;
+    this.name = data.name;
+    this.cost = data.cost;
+  }
+}
+
+export let rolls: Roll;
+export let rolls_selects: Array<Prize>;
+
+// const fetchData = async (id: string) => {
+//   try {
+//     const res = await fetch(`https://telegram-gift-bot-3jp7.onrender.com/api/rolls/${id}`);
+//     const data = await res.json();
+//     rolls = data[0];
+//     console.log(id, data[0]);
+//   } catch (error) {
+//     console.error("Ошибка загрузки:", error);
+//   }
+// };
+
+
+const fetchRolls = async () => {
   try {
     const res = await fetch("https://telegram-gift-bot-3jp7.onrender.com/api/rolls/");
-    const data = await res.json();
-    rolls = data[0];
-    console.log(rolls);
+    const data = await res.json()
+    rolls_selects = data;
+
+    const res2 = await fetch(`https://telegram-gift-bot-3jp7.onrender.com/api/rolls/${data[0]._id}`);
+    const data2 = await res2.json();
+    rolls = data2[0];
+    
   } catch (error) {
     console.error("Ошибка загрузки:", error);
   }
 };
 
-await fetchData();
-    // console.log(rolls);
+await fetchRolls();
+// console.log(rolls);
