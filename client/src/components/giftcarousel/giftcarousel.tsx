@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import classes from "./giftcarousel.module.css";
 import Card from "./card";
-import { TbTriangleFilled } from "react-icons/tb";
+// import { TbTriangleFilled } from "react-icons/tb";
 import { DefaultGifts } from "../../rolls/DefaultGifts";
+import { BsStars } from "react-icons/bs";
 
 export type GiftType = {
   image: string;
@@ -40,11 +41,13 @@ function Giftcarousel({ gifts }: Props) {
   );
   const [offset, setOffset] = React.useState(0);
   const [width, setWidth] = React.useState(0);
+  const [isRolled, setIsRolled] = React.useState(false);
   const speedRef = React.useRef(0);
   const [isInactive, setIsInactive] = React.useState(false);
 
   function Roll() {
     if(!isInactive) {
+      setIsRolled(true);
       setCards(GenerateGift(gifts, 14));
       setOffset(0);
       setIsInactive(true);
@@ -90,9 +93,9 @@ function Giftcarousel({ gifts }: Props) {
         <div className={classes.shadow_left}></div>
         <div className={classes.shadow_right}></div>
         <div className={classes.pointer}></div>
-        <TbTriangleFilled className={classes.arrowpointerdown} size={20} />
-        <TbTriangleFilled className={classes.arrowpointer} size={20} />
-        <div className={`${classes.card_holder} ${classes.carousel_track}`}>
+        <BsStars className={classes.arrowpointerdown} size={35} />
+        <BsStars className={classes.arrowpointer} size={35} />
+        <div className={`${classes.card_holder} ${isRolled === false ? classes.card_holder_static: ""} ${classes.carousel_track}`}>
           <div
             style={{
               transform: `translateX(${offset}px)`,

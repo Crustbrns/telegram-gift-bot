@@ -25,18 +25,20 @@
     z-index: 200;
     color: #ffb114;
     position: absolute;
-    left: calc(50% - 10px);
-    bottom: -10px;
+    transform: rotate(180deg);
+    left: calc(50% - 17.5px);
+    bottom: -25px;
 }
 
 
 .arrowpointerdown {
     z-index: 200;
+    /* transform: rotate(180deg); */
     color: #ffb114;
     position: absolute;
-    left: calc(50% - 10px);
-    top: -10px;
-    transform: rotate(180deg);
+    left: calc(50% - 17.5px);
+    top: -25px;
+    transform: rotate(360deg);
 }
 
 .shadow_left {
@@ -79,6 +81,7 @@
     margin-top: 30px;
     transition: .3s ease;
     cursor: pointer;
+    user-select: none;
 }
 
 .button_inactive {
@@ -200,4 +203,19 @@
   64% { transform: rotate(-45deg); }
   65% { transform: rotate(-40deg); }
 100% { transform: rotate(0deg); }
+}
+
+.card_holder_static {
+    animation: static;
+    animation-duration: 120s;
+    animation-timing-function: linear;
+}
+
+@keyframes static {
+    from {
+        margin-left: 0px;
+    }
+    to {
+        margin-left: -1500px;
+    }
 }

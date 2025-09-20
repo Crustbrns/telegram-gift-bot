@@ -65,7 +65,8 @@ const fetchRolls = async () => {
 
     const res2 = await fetch(`https://telegram-gift-bot-3jp7.onrender.com/api/rolls/${data[0]._id}`);
     const data2 = await res2.json();
-    rolls = data2[0];
+    rolls = data2;
+    // console.log(data2[0])
     
   } catch (error) {
     console.error("Ошибка загрузки:", error);
