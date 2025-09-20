@@ -9,6 +9,8 @@ import { user } from "./user/User";
 // import Title from "./components/title/title";
 // import Tabs from "./components/tabs/tabs";
 
+console.log(user, 'user');
+
 function App() {
   return (
     <>
