@@ -9,30 +9,36 @@ const OPTIONS: Opt[] = [
   //   { value: 2, label: "откл" },
 ];
 
-export default function DemoSwitcher(isActive: boolean) {
+type DemoSwitcherProps = {
+  isInactive: boolean;
+};
+
+export default function DemoSwitcher({ isInactive }: DemoSwitcherProps) {
   const { obdemo, update } = useObDemoStore();
   const [selectedDemo, setSelectedDemo] = useState<boolean>(obdemo);
 
   function SelectRoll() {
-    if(isActive){
-        setSelectedDemo(!obdemo);
-        update(!obdemo);
-        console.log(selectedDemo);
+    if (!isInactive) {
+      setSelectedDemo(!obdemo);
+      update(!obdemo);
+      console.log(selectedDemo);
     }
   }
 
   return (
     <div
       onClick={SelectRoll}
-      className={`${classes.tabs} relative flex rounded-2xl border border-white/15 bg-white/5 backdrop-blur-md p-1 text-white`}
+      className={`${classes.tabs} ${
+        isInactive ? classes.tabs_inactive : ""
+      } relative flex rounded-2xl border border-white/15 bg-white/5 backdrop-blur-md p-1 text-white`}
     >
       {OPTIONS.map((o: Opt) => {
         const active = o.value === selectedDemo;
         return (
           <div
             key={o.label}
-            className={`${classes.tab} ${
-              active ? classes.tab_active : ""
+            className={`${classes.tab} ${active ? classes.tab_active : ""} ${
+              isInactive && active ? classes.tab_active_inactive : ""
             } relative flex-1 px-8 py-3 text-center font-medium`}
           >
             <span className="relative z-10 flex items-center justify-center gap-1">

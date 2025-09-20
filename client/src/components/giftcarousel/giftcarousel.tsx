@@ -5,10 +5,7 @@ import Card from "./card";
 import { DefaultGifts } from "../../rolls/DefaultGifts";
 import { BsStars } from "react-icons/bs";
 import { useLastWinsStore, useObDemoStore } from "../../user/User";
-import { PiDiceFiveBold } from "react-icons/pi";
 import DemoSwitcher from "./DemoSwitcher";
-
-
 
 export type GiftType = {
   image: string;
@@ -41,8 +38,8 @@ function GenerateGift(gifts: Array<string>, count: number): Array<GiftImage> {
 }
 
 function Giftcarousel({ gifts }: Props) {
-   const { lastwins, addWin, removeLast, clear } = useLastWinsStore();
-   const {obdemo} = useObDemoStore();
+  const { addWin } = useLastWinsStore();
+  const { obdemo } = useObDemoStore();
   const [cards, setCards] = React.useState<GiftImage[]>(() =>
     GenerateGift(gifts, 14)
   );
@@ -53,7 +50,7 @@ function Giftcarousel({ gifts }: Props) {
   const [isInactive, setIsInactive] = React.useState(false);
 
   function Roll() {
-    if(!isInactive) {
+    if (!isInactive) {
       setIsRolled(true);
       const giftstemp = GenerateGift(gifts, 14);
       setCards(giftstemp);
@@ -105,7 +102,11 @@ function Giftcarousel({ gifts }: Props) {
         <div className={classes.pointer}></div>
         <BsStars className={classes.arrowpointerdown} size={35} />
         <BsStars className={classes.arrowpointer} size={35} />
-        <div className={`${classes.card_holder} ${isRolled === false ? classes.card_holder_static: ""} ${classes.carousel_track}`}>
+        <div
+          className={`${classes.card_holder} ${
+            isRolled === false ? classes.card_holder_static : ""
+          } ${classes.carousel_track}`}
+        >
           <div
             style={{
               transform: `translateX(${offset}px)`,
@@ -124,21 +125,16 @@ function Giftcarousel({ gifts }: Props) {
         <TbTriangleFilled className={classes.arrow} color="black" size={25} />
       </div> */}
       <div className={classes.button_holder}>
-      <div
-        className={`${classes.button} ${
-          isInactive ? classes.button_inactive : ""
-        }`}
-        onClick={Roll}
+        <div
+          className={`${classes.button} ${
+            isInactive ? classes.button_inactive : ""
+          }`}
+          onClick={Roll}
         >
-        {!obdemo ? "Испытать удачу!": "Попробовать бесплатно!"}
-      </div>
-      <div className={`${classes.demo_button} ${
-          isInactive ? classes.button_inactive : ""
-        }`}>
-          <DemoSwitcher/>
-        
-      </div>
+          {!obdemo ? "Испытать удачу!" : "Попробовать бесплатно!"}
         </div>
+        <DemoSwitcher isInactive={isInactive} />
+      </div>
     </div>
   );
 }
