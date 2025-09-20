@@ -3,19 +3,18 @@ import Container from "./components/container/container";
 import SegmentedTabs from "./components/tabs/segmentedtabs";
 import Giftcarousel from "./components/giftcarousel/giftcarousel";
 import { rolls, rolls_selects } from "./rolls/Roll";
-import NavButtons from "./components/navbuttons/NavButtons";
-import { user } from "./user/User";
+// import NavButtons from "./components/navbuttons/NavButtons";
+import LastDrops from "./components/lastdrops/LastDrops";
 
 // import Title from "./components/title/title";
 // import Tabs from "./components/tabs/tabs";
 
-console.log(user, 'user');
-
 function App() {
   return (
     <>
-      <NavButtons />
+      {/* <NavButtons /> */}
       <Container>
+        <LastDrops/>
         <SegmentedTabs rolls={rolls_selects} />
         {/* <Title /> */}
         {rolls != null && (

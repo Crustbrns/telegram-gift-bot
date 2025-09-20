@@ -4,6 +4,11 @@ import Card from "./card";
 // import { TbTriangleFilled } from "react-icons/tb";
 import { DefaultGifts } from "../../rolls/DefaultGifts";
 import { BsStars } from "react-icons/bs";
+import { useLastWinsStore, useObDemoStore } from "../../user/User";
+import { PiDiceFiveBold } from "react-icons/pi";
+import DemoSwitcher from "./DemoSwitcher";
+
+
 
 export type GiftType = {
   image: string;
@@ -36,6 +41,8 @@ function GenerateGift(gifts: Array<string>, count: number): Array<GiftImage> {
 }
 
 function Giftcarousel({ gifts }: Props) {
+   const { lastwins, addWin, removeLast, clear } = useLastWinsStore();
+   const {obdemo} = useObDemoStore();
   const [cards, setCards] = React.useState<GiftImage[]>(() =>
     GenerateGift(gifts, 14)
   );
@@ -48,7 +55,10 @@ function Giftcarousel({ gifts }: Props) {
   function Roll() {
     if(!isInactive) {
       setIsRolled(true);
-      setCards(GenerateGift(gifts, 14));
+      const giftstemp = GenerateGift(gifts, 14);
+      setCards(giftstemp);
+      // console.log(giftstemp[11]);
+      addWin(giftstemp[11].title);
       setOffset(0);
       setIsInactive(true);
       speedRef.current = 58.4;
@@ -113,14 +123,22 @@ function Giftcarousel({ gifts }: Props) {
       {/* <div className={classes.arrow_container}>
         <TbTriangleFilled className={classes.arrow} color="black" size={25} />
       </div> */}
+      <div className={classes.button_holder}>
       <div
         className={`${classes.button} ${
           isInactive ? classes.button_inactive : ""
         }`}
         onClick={Roll}
-      >
-        Мне повезет!
+        >
+        {!obdemo ? "Испытать удачу!": "Попробовать бесплатно!"}
       </div>
+      <div className={`${classes.demo_button} ${
+          isInactive ? classes.button_inactive : ""
+        }`}>
+          <DemoSwitcher/>
+        
+      </div>
+        </div>
     </div>
   );
 }
