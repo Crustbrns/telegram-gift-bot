@@ -29,7 +29,7 @@
     "swagger": "node src/swagger.ts"
   },
   "dependencies": {
-    "@tma.js/init-data-node": "^2.0.1",
+    "@telegram-apps/init-data-node": "^2.0.10",
     "cors": "^2.8.5",
     "express-slow-down": "^3.0.0",
     "helmet": "^8.1.0",

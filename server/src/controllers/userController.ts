@@ -1,4 +1,4 @@
-import { validate, parse, type InitData } from '@tma.js/init-data-node';
+import { validate, parse, type InitData } from '@telegram-apps/init-data-node';
 import type { Request, Response, NextFunction } from 'express';
 import { User } from '../models/user.js';
 import config from '../config/config.js';
