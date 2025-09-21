@@ -3,7 +3,10 @@ import { model, Schema } from 'mongoose';
 export interface IUser {
   tgId: string;
   username: string;
-  name: string;
+  firstname: string;
+  lastname: string;
+  photoURL: string;
+  allowToWrite: boolean;
   languageCode: string;
   balance: number;
 }
@@ -16,10 +19,18 @@ const usersSchema = new Schema<IUser>({
   },
   username: {
     type: String,
-    required: true,
   },
-  name: {
+  firstname: {
     type: String,
+  },
+  lastname: {
+    type: String,
+  },
+  photoURL: {
+    type: String,
+  },
+  allowToWrite: {
+    type: Boolean,
   },
   languageCode: {
     type: String,
