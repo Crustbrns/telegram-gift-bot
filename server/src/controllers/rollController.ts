@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import { Roll, type IRoll } from '../models/roll.js';
 import { User } from '../models/user.js';
+import { History } from '../models/history.js';
 import { Prize, type IPrize } from '../models/prize.js';
 import config from '../config/config.js';
 
@@ -150,9 +151,17 @@ export async function roll(req: Request, res: Response, next: NextFunction) {
 
     const result = rollPrize(roll);
     await user.updateOne({ balance: (user.balance -= roll.cost) });
-    res
-      .status(200)
-      .json({ message: 'Success roll', prize: result.prize, chance: result.chance });
+    await History.create({
+      user: user.id,
+      prize: result.prize,
+      chance: result.chance,
+      roll: roll,
+    });
+    res.status(200).json({
+      message: 'Success roll',
+      prize: result.prize,
+      chance: result.chance,
+    });
   } catch (error) {
     next(error);
   }
@@ -203,7 +212,10 @@ function rollPrize(roll: IRoll): RollResult {
 
   // Rounding fallback: return last defined outcome (may be null = no prize)
   const last = chances[chances.length - 1];
-  return { prize: last?.prize ?? null, chance: Math.max(0, last?.chance ?? 0) / total };
+  return {
+    prize: last?.prize ?? null,
+    chance: Math.max(0, last?.chance ?? 0) / total,
+  };
 }
 
 type RollChance = {

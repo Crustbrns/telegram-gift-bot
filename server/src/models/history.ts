@@ -1,16 +1,18 @@
 import { model, Schema } from 'mongoose';
 import { type IUser } from './user.js';
 import { type IPrize } from './prize.js';
+import type { IRoll } from './roll.js';
 
 export interface IHistory {
-  userId: IUser;
+  user: IUser;
   prize: IPrize;
-  rollType: string;
+  chance: number;
+  roll: IRoll;
   recordedOn: Date;
 }
 
 const historiesSchema = new Schema<IHistory>({
-  userId: {
+  user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
@@ -20,8 +22,13 @@ const historiesSchema = new Schema<IHistory>({
     ref: 'Prize',
     required: true,
   },
-  rollType: {
-    type: String,
+  chance: {
+    type: Number,
+    required: true,
+  },
+  roll: {
+    type: Schema.Types.ObjectId,
+    ref: 'Roll',
     required: true,
   },
   recordedOn: {

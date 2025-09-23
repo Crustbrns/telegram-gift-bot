@@ -11,6 +11,7 @@ import morgan from "morgan";
 import pingRoute from './routes/pingRoute.js';
 import userRoutes from './routes/userRoutes.js';
 import helmet from 'helmet';
+import historyRoutes from './routes/historyRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -32,6 +33,7 @@ if (config.nodeEnv == 'development') {
 app.use('/api/prizes', prizeRoutes);
 app.use('/api/rolls', rollRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/history', historyRoutes);
 app.use('/ping', pingRoute);
 
 app.use(errorHandler);
